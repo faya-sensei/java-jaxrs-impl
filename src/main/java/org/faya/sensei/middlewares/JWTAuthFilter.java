@@ -10,6 +10,7 @@ import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.SecurityContext;
 import jakarta.ws.rs.ext.Provider;
+import org.faya.sensei.entities.UserRole;
 import org.faya.sensei.payloads.UserPrincipal;
 import org.faya.sensei.services.IAuthService;
 
@@ -43,12 +44,17 @@ public class JWTAuthFilter implements ContainerRequestFilter {
 
                 @Override
                 public boolean isUserInRole(String role) {
-                    return false;
+                    UserRole userRole = UserRole.valueOf(user.get().getRole().toUpperCase());
+
+                    return UserRole.valueOf(role.toUpperCase()).getLevel() <= userRole.getLevel();
                 }
 
                 @Override
                 public boolean isSecure() {
-                    return false;
+                    return requestContext.getUriInfo()
+                            .getAbsolutePath()
+                            .getScheme()
+                            .equalsIgnoreCase("https");
                 }
 
                 @Override

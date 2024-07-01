@@ -8,13 +8,40 @@ public final class StatusDTO {
 
     private String name;
 
+    // Getters and Setters
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     // Converters
 
     public static StatusEntity toEntity(final StatusDTO statusDTO) {
-        return new StatusEntity();
+        StatusEntity statusEntity = new StatusEntity();
+
+        statusEntity.setName(statusDTO.getName());
+
+        return statusEntity;
     }
 
     public static StatusDTO fromEntity(final StatusEntity statusEntity) {
-        return new StatusDTO();
+        StatusDTO statusDTO = new StatusDTO();
+
+        statusDTO.setId(statusEntity.getId());
+        statusDTO.setName(statusEntity.getName());
+
+        return statusDTO;
     }
 }
